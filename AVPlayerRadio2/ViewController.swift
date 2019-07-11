@@ -1,8 +1,12 @@
 import UIKit
 //import AVFoundation
 import AVKit
+import Alamofire
 
 class ViewController: UIViewController {
+    
+    //    let informator = AVPlayer(url: URL(string: "http://main.inf.fm:9103")!)
+    
     let rabbitPath = "https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
     let urlWatch = "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_adv_example_hevc/master.m3u8"
     let urlFM = "http://main.inf.fm:9103"
@@ -16,7 +20,7 @@ class ViewController: UIViewController {
         button.titleLabel?.textColor = .red
         button.backgroundColor = .green
         
-        button.addTarget(self, action: #selector(getController), for: .touchDown)
+        button.addTarget(self, action: #selector(getRadioWithAlamofire), for: .touchDown)
         
         return button
     }()
@@ -25,7 +29,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(myButton)
-//        getRabbitInNora()
+        //        getRabbitInNora()
         getController()
     }
     
@@ -43,13 +47,13 @@ class ViewController: UIViewController {
     }
     
     @objc func getController() {
-        guard let urlWatch = URL(string: urlFM) else { return }
+        //        guard let urlWatch = URL(string: urlFM) else { return }
         
         ViewController.player = AVPlayer(url: URL(string: urlFM)!)
         
-//        let playerLayer = AVPlayerLayer(player: player)
-//        playerLayer.frame = self.view.bounds
-//        self.view.layer.addSublayer(playerLayer)
+        //        let playerLayer = AVPlayerLayer(player: player)
+        //        playerLayer.frame = self.view.bounds
+        //        self.view.layer.addSublayer(playerLayer)
         
         let controller = AVPlayerViewController()
         controller.player = ViewController.player
@@ -60,5 +64,31 @@ class ViewController: UIViewController {
         
     }
     
+    @objc func getRadioWithAlamofire() {
+        //        let informator = AVPlayer(url: URL(string: "http://main.inf.fm:9103")!)
+        //        informator.play()
+        var player = AVAudioPlayer()
+        
+        request(urlFM).stream { data in
+            do {
+                
+                player = try AVAudioPlayer(data: data, fileTypeHint: AVFileType.mp3.rawValue)
+                print("DATA = \(data)")
+                player.prepareToPlay()
+                player.play()
+                
+                DispatchQueue.main.async {
+                    for _ in 0...Int64.max {
+                        if player.duration >= 4 {
+                            player.play()
+                            //                    sleep(5)
+                        }
+                    }
+                }
+                
+            } catch {}
+        }
+        
+        
+    }
 }
-
