@@ -3,11 +3,11 @@ import UIKit
 import AVKit
 
 class ViewController: UIViewController {
-    
-    
     let rabbitPath = "https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
     let urlWatch = "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_adv_example_hevc/master.m3u8"
     let urlFM = "http://main.inf.fm:9103"
+    
+    static var player = AVPlayer()
     
     let myButton: UIButton = {
         let button = UIButton()
@@ -45,17 +45,17 @@ class ViewController: UIViewController {
     @objc func getController() {
         guard let urlWatch = URL(string: urlFM) else { return }
         
-        let player = AVPlayer(url: urlWatch)
+        ViewController.player = AVPlayer(url: URL(string: urlFM)!)
         
 //        let playerLayer = AVPlayerLayer(player: player)
 //        playerLayer.frame = self.view.bounds
 //        self.view.layer.addSublayer(playerLayer)
         
         let controller = AVPlayerViewController()
-        controller.player = player
+        controller.player = ViewController.player
         
         present(controller, animated: true) {
-            player.play()
+            ViewController.player.play()
         }
         
     }
