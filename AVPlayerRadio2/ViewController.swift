@@ -6,6 +6,8 @@ class ViewController: UIViewController {
     
     
     let rabbitPath = "https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
+    let urlWatch = "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_adv_example_hevc/master.m3u8"
+    let urlFM = "http://main.inf.fm:9103"
     
     let myButton: UIButton = {
         let button = UIButton()
@@ -41,7 +43,7 @@ class ViewController: UIViewController {
     }
     
     @objc func getController() {
-        guard let urlWatch = URL(string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_adv_example_hevc/master.m3u8") else { return }
+        guard let urlWatch = URL(string: urlFM) else { return }
         
         let player = AVPlayer(url: urlWatch)
         
