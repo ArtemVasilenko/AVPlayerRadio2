@@ -1,20 +1,30 @@
-//
-//  ViewController.swift
-//  AVPlayerRadio2
-//
-//  Created by Артем on 7/11/19.
-//  Copyright © 2019 Артем. All rights reserved.
-//
-
 import UIKit
+import AVFoundation
+//import AVKit
 
 class ViewController: UIViewController {
-
+    
+    
+    let rabbitPath = "https://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        getRabbitInNora()
     }
-
-
+    
+    
+    func getRabbitInNora() {
+        guard let rabbitUrl = URL(string: rabbitPath) else {print("error URL"); return}
+        let player = AVPlayer(url: rabbitUrl)
+        print("player = \(player.description)")
+        let layer = AVPlayerLayer(player: player)
+        
+        layer.frame = self.view.bounds
+        self.view.layer.addSublayer(layer)
+        player.play()
+        
+    }
+    
 }
 
